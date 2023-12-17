@@ -1,0 +1,24 @@
+/* you only have to complete the function given below.  
+Node is defined as  
+
+class Node {
+    int data;
+    Node left;
+    Node right;
+}
+
+*/
+
+    public static void preOrder(Node root) {
+        // Check if the root is null
+        if (root == null) {
+            return;
+        }
+
+        // Print the value of the current node
+        System.out.print(root.data + " ");
+
+        preOrder(root.left);
+
+        preOrder(root.right);
+    }
