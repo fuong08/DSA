@@ -1,0 +1,54 @@
+import java.util.*;
+
+public class Solution {
+
+    public static void main(String[] args) {
+        List<Integer> list = new ArrayList<>();
+        Scanner scanner = new Scanner(System.in);
+        int student = scanner.nextInt();
+        int questions = scanner.nextInt();
+        for (int i = 0; i < student; i++) {
+            int a = scanner.nextInt();
+            list.add(a);
+        }
+        list.sort(Comparator.naturalOrder());
+        int type;
+        boolean needSort = false;
+        while (questions > 0) {
+            questions--;
+
+            type = scanner.nextInt();
+            if (type == 1) {
+                int newStudent = scanner.nextInt();
+                list.add(newStudent);
+                needSort = true;
+            } else if (type == 2) {
+                if (list.size() == 0) {
+                    continue;
+                }
+                if (needSort && list.size() > 1) {
+                    list.sort(Comparator.naturalOrder());
+                    needSort = false;
+                }
+                if (list.size() % 2 == 0) {
+                    list.remove(list.size()/2 - 1);
+                } else {
+                    list.remove(list.size()/2);
+                }
+            } else {
+                if (list.size() == 0) {
+                    continue;
+                }
+                if (needSort && list.size() > 1) {
+                    list.sort(Comparator.naturalOrder());
+                    needSort = false;
+                }
+                if (list.size() % 2 == 0) {
+                    System.out.println(list.get(list.size()/2 - 1));
+                } else {
+                    System.out.println(list.get(list.size()/2));
+                }
+            }
+        }
+    }
+}
