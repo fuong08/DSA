@@ -1,0 +1,98 @@
+import java.util.*;
+
+public class MaxPQ<Key extends Comparable<Key>> {
+
+    private Key[] pq;
+    private int N;
+
+    private Key peek;
+
+    public MaxPQ(int capacity) {
+        pq = (Key[]) new Comparable[capacity];
+    }
+
+    public int size() {
+        return N;
+    }
+
+    public boolean isEmpty() {
+        return N == 0;
+    }
+
+    public void insert(Key x) {
+        if(N == 0) peek = x;
+        else {
+            if(peek.compareTo(x) < 0) peek = x;
+        }
+        pq[++N] = x;
+        swim(N);
+    }
+
+    private boolean greater(int a, int b) {
+        return pq[a].compareTo(pq[b]) > 0;
+    }
+
+    public Key delKeyMin() {
+        Key min = pq[1];
+        exch(1,N--);
+        sink(1);
+        pq[N+1] = null;
+        return min;
+    }
+
+    public Key keyMin() {
+        return pq[1];
+    }
+
+    private void exch(int a, int b) {
+        Key temp = pq[a];
+        pq[a] = pq[b];
+        pq[b] = temp;
+    }
+
+    private void swim(int k) {
+//        System.out.println(k + " " + pq[k/2] + " " + pq[k]);
+        while (k > 1 && greater(k/2,k)) {
+            exch(k,k/2);
+            k = k/2;
+        }
+    }
+
+    private void sink(int k) {
+        while (2*k <= N) {
+            int j = 2 * k;
+            if(j < N && greater(j, j + 1)) j++;
+            if(!greater(k,j)) break;
+            exch(k,j);
+            k = j;
+        }
+    }
+    private void print() {
+        for(int i = 1; i <= N; i++) {
+            System.out.print(pq[i] + " ");
+        }
+        System.out.println();
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int n = scanner.nextInt();
+        int k = scanner.nextInt();
+        MaxPQ<Integer> maxPQ = new MaxPQ<>(n+1);
+        for(int i = 0; i < n; i++) {
+            int x = scanner.nextInt();
+            maxPQ.insert(x);
+        }
+        int count = 0;
+        while(maxPQ.size() >= 2) {
+            if(maxPQ.keyMin() >= k) break;
+            int a = maxPQ.delKeyMin();
+            int b = maxPQ.delKeyMin();
+            maxPQ.insert(a + 2*b);
+            count++;
+        }
+        if(maxPQ.size() < 2 && maxPQ.peek < k) System.out.println(-1);
+        else System.out.println(count);
+       
+    }
+}
