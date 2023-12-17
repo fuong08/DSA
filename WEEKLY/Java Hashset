@@ -1,0 +1,7 @@
+//Write your code here
+        Set<String> set = new HashSet<String>();
+            for(int i =0;i<t;i++){
+                String fullName = pair_left[i]+" "+pair_right[i];
+                set.add(fullName);
+                System.out.println(set.size());
+        }   
